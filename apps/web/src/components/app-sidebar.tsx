@@ -13,32 +13,9 @@ import {
   SidebarRail,
   SidebarSeparator,
 } from "@tendril/ui/components/sidebar";
-import { Bot, CheckSquare, Home, LayoutDashboard } from "lucide-react";
 
+import { navigationItems } from "@/components/navigation-items";
 import { SidebarAccountMenu } from "./sidebar-account-menu";
-
-const navigationItems = [
-  {
-    to: "/",
-    label: "Home",
-    icon: Home,
-  },
-  {
-    to: "/dashboard",
-    label: "Dashboard",
-    icon: LayoutDashboard,
-  },
-  {
-    to: "/todos",
-    label: "Todos",
-    icon: CheckSquare,
-  },
-  {
-    to: "/agent",
-    label: "Agent",
-    icon: Bot,
-  },
-] as const;
 
 export function AppSidebar() {
   const pathname = useRouterState({

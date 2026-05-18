@@ -6,12 +6,10 @@ import {
   Outlet,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { SidebarInset, SidebarProvider } from "@tendril/ui/components/sidebar";
 import { Toaster } from "@tendril/ui/components/sonner";
 import { TooltipProvider } from "@tendril/ui/components/tooltip";
 
-import { AppSidebar } from "@/components/app-sidebar";
-import Header from "@/components/header";
+import { CommandMenu } from "@/components/command-menu";
 import { ThemeProvider } from "@/components/theme-provider";
 import type { orpc } from "@/utils/orpc";
 
@@ -54,15 +52,8 @@ function RootComponent() {
         storageKey="vite-ui-theme"
       >
         <TooltipProvider>
-          <SidebarProvider>
-            <AppSidebar />
-            <SidebarInset>
-              <Header />
-              <div className="min-h-0 flex-1 overflow-auto">
-                <Outlet />
-              </div>
-            </SidebarInset>
-          </SidebarProvider>
+          <CommandMenu showTrigger={false} />
+          <Outlet />
         </TooltipProvider>
         <Toaster richColors />
       </ThemeProvider>
