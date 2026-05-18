@@ -8,6 +8,8 @@
     "compile": "bun build --compile --minify --sourcemap --bytecode ./src/index.ts --outfile server"
   },
   "dependencies": {
+    "@ai-sdk/openai": "catalog:",
+    "@cloudflare/think": "catalog:",
     "@orpc/openapi": "catalog:",
     "@orpc/server": "catalog:",
     "@orpc/zod": "catalog:",
@@ -15,6 +17,8 @@
     "@tendril/auth": "workspace:*",
     "@tendril/db": "workspace:*",
     "@tendril/env": "workspace:*",
+    "agents": "catalog:",
+    "ai": "catalog:",
     "better-auth": "catalog:",
     "dotenv": "catalog:",
     "hono": "catalog:",

@@ -1,9 +1,11 @@
 import type { QueryClient } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import {
   createRootRouteWithContext,
   HeadContent,
   Outlet,
 } from "@tanstack/react-router";
+import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { SidebarInset, SidebarProvider } from "@tendril/ui/components/sidebar";
 import { Toaster } from "@tendril/ui/components/sonner";
 import { TooltipProvider } from "@tendril/ui/components/tooltip";
@@ -64,8 +66,8 @@ function RootComponent() {
         </TooltipProvider>
         <Toaster richColors />
       </ThemeProvider>
-      {/*<TanStackRouterDevtools position="bottom-left" />
-      <ReactQueryDevtools buttonPosition="bottom-right" position="bottom" />*/}
+      <TanStackRouterDevtools position="bottom-left" />
+      <ReactQueryDevtools buttonPosition="bottom-right" position="bottom" />
     </>
   );
 }

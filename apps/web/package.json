@@ -11,6 +11,7 @@
     "dev:bare": "vite dev"
   },
   "dependencies": {
+    "@cloudflare/ai-chat": "catalog:",
     "@hookform/resolvers": "^5.2.2",
     "@orpc/client": "catalog:",
     "@orpc/server": "catalog:",
@@ -22,6 +23,7 @@
     "@tendril/api": "workspace:*",
     "@tendril/env": "workspace:*",
     "@tendril/ui": "workspace:*",
+    "agents": "catalog:",
     "better-auth": "catalog:",
     "dotenv": "catalog:",
     "lucide-react": "^1.8.0",
