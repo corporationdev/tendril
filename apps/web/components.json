@@ -1,12 +1,12 @@
 {
   "$schema": "https://ui.shadcn.com/schema.json",
-  "style": "base-lyra",
+  "style": "base-mira",
   "rsc": false,
   "tsx": true,
   "tailwind": {
     "config": "",
     "css": "../../packages/ui/src/styles/globals.css",
-    "baseColor": "neutral",
+    "baseColor": "stone",
     "cssVariables": true,
     "prefix": ""
   },
@@ -15,10 +15,11 @@
     "components": "@/components",
     "utils": "@tendril/ui/lib/utils",
     "ui": "@tendril/ui/components",
-    "lib": "@/lib",
-    "hooks": "@/hooks"
+    "lib": "@tendril/ui/lib",
+    "hooks": "@tendril/ui/hooks"
   },
   "menuColor": "default",
   "menuAccent": "subtle",
+  "rtl": false,
   "registries": {}
 }
