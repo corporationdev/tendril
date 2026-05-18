@@ -1,5 +1,5 @@
 import { createOpenAI } from "@ai-sdk/openai";
-import type { TurnConfig } from "@cloudflare/think";
+import type { TurnConfig, TurnContext } from "@cloudflare/think";
 import { Think } from "@cloudflare/think";
 import { OpenAPIHandler } from "@orpc/openapi/fetch";
 import { OpenAPIReferencePlugin } from "@orpc/openapi/plugins";
@@ -15,9 +15,14 @@ import type { LanguageModel } from "ai";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
+import {
+  createWorkspaceExecuteTool,
+  getExecuteOnlySystemPrompt,
+} from "./execute-tool";
 
 type ServerEnv = Cloudflare.Env & {
   OPENAI_API_KEY: string;
+  LOADER: WorkerLoader;
   TendrilThinkAgent: DurableObjectNamespace<TendrilThinkAgent>;
 };
 
@@ -39,8 +44,17 @@ export class TendrilThinkAgent extends Think<ServerEnv> {
     return openai("gpt-5.4-mini");
   }
 
-  beforeTurn(): TurnConfig {
+  beforeTurn(ctx: TurnContext): TurnConfig {
     return {
+      activeTools: ["execute"],
+      system: getExecuteOnlySystemPrompt(),
+      tools: {
+        execute: createWorkspaceExecuteTool({
+          loader: this.env.LOADER,
+          tools: ctx.tools,
+          messages: ctx.messages,
+        }),
+      },
       providerOptions: {
         openai: {
           reasoningEffort: "low",
@@ -50,10 +64,7 @@ export class TendrilThinkAgent extends Think<ServerEnv> {
   }
 
   getSystemPrompt() {
-    return [
-      "You are Tendril's default Think assistant.",
-      "Be concise, practical, and helpful.",
-    ].join("\n");
+    return getExecuteOnlySystemPrompt();
   }
 }
 

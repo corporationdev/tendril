@@ -1,5 +1,10 @@
 import alchemy from "alchemy";
-import { DurableObjectNamespace, Vite, Worker } from "alchemy/cloudflare";
+import {
+  DurableObjectNamespace,
+  Vite,
+  Worker,
+  WorkerLoader,
+} from "alchemy/cloudflare";
 import { config } from "dotenv";
 
 config({ path: "./.env" });
@@ -45,6 +50,7 @@ export const server = await Worker("server", {
       alchemy.secret.env.OPENAI_API_KEY,
       "OPENAI_API_KEY"
     ),
+    LOADER: WorkerLoader(),
     TendrilThinkAgent: tendrilThinkAgent,
   },
   dev: {
