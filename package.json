@@ -1,0 +1,58 @@
+{
+  "name": "tendril",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "packages/*"
+    ],
+    "catalog": {
+      "dotenv": "^17.2.2",
+      "zod": "^4.1.13",
+      "typescript": "^6",
+      "@types/node": "^22.13.14",
+      "@cloudflare/workers-types": "^4.20251213.0",
+      "hono": "^4.8.2",
+      "@orpc/server": "^1.13.14",
+      "@orpc/openapi": "^1.13.14",
+      "@orpc/zod": "^1.13.14",
+      "better-auth": "1.6.9",
+      "alchemy": "^0.91.2",
+      "next-themes": "^0.4.6",
+      "@orpc/client": "^1.13.14",
+      "@types/react-dom": "^19.2.3",
+      "drizzle-orm": "^0.45.1"
+    }
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "check-types": "turbo check-types",
+    "dev:web": "turbo -F web dev",
+    "dev:server": "turbo -F server dev",
+    "db:push": "turbo -F @tendril/db db:push",
+    "db:studio": "turbo -F @tendril/db db:studio",
+    "db:generate": "turbo -F @tendril/db db:generate",
+    "db:migrate": "turbo -F @tendril/db db:migrate",
+    "deploy": "turbo -F @tendril/infra deploy",
+    "destroy": "turbo -F @tendril/infra destroy",
+    "check": "ultracite check",
+    "fix": "ultracite fix"
+  },
+  "dependencies": {
+    "@tendril/env": "workspace:*",
+    "dotenv": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.4.15",
+    "@cloudflare/workers-types": "catalog:",
+    "@tendril/config": "workspace:*",
+    "@types/node": "catalog:",
+    "turbo": "^2.8.12",
+    "typescript": "catalog:",
+    "ultracite": "7.7.0"
+  },
+  "packageManager": "bun@1.3.11"
+}
