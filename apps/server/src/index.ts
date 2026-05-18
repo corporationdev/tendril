@@ -10,7 +10,7 @@ import { createContext } from "@tendril/api/context";
 import { appRouter } from "@tendril/api/routers/index";
 import { createAuth } from "@tendril/auth";
 import { env as serverEnv } from "@tendril/env/server";
-import { routeAgentRequest } from "agents";
+import { getAgentByName, routeAgentRequest } from "agents";
 import type { LanguageModel } from "ai";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
@@ -33,6 +33,28 @@ const withAgentRoomHeader = (request: Request, room: string) => {
   nextRequest.headers.set("x-partykit-room", room);
 
   return nextRequest;
+};
+
+const isDurableObjectNamespace = (
+  value: unknown
+): value is DurableObjectNamespace<TendrilThinkAgent> =>
+  typeof value === "object" &&
+  value !== null &&
+  "idFromName" in value &&
+  typeof value.idFromName === "function";
+
+const prepareAgentRequest = async (
+  request: Request,
+  env: ServerEnv,
+  lobby: { className: string; name: string }
+) => {
+  const namespace = env[lobby.className as keyof ServerEnv];
+
+  if (isDurableObjectNamespace(namespace)) {
+    await getAgentByName(namespace, lobby.name);
+  }
+
+  return withAgentRoomHeader(request, lobby.name);
 };
 
 export class TendrilThinkAgent extends Think<ServerEnv> {
@@ -84,9 +106,9 @@ app.on(["POST", "GET"], "/api/auth/*", (c) => createAuth().handler(c.req.raw));
 app.use("/agents/*", async (c) => {
   const response = await routeAgentRequest(c.req.raw, c.env, {
     onBeforeConnect: (request, lobby) =>
-      withAgentRoomHeader(request, lobby.name),
+      prepareAgentRequest(request, c.env, lobby),
     onBeforeRequest: (request, lobby) =>
-      withAgentRoomHeader(request, lobby.name),
+      prepareAgentRequest(request, c.env, lobby),
   });
 
   return response ?? c.text("Agent not found", 404);
